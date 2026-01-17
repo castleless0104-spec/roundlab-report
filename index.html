@@ -9,40 +9,52 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* 1. THE SETUP */
+        /* 1. SETUP & RESPONSIVENESS */
         * { box-sizing: border-box; }
-        body { background-color: #f1f5f9; margin: 0; padding: 20px 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: 'Noto Sans KR', sans-serif; }
+        body { 
+            background-color: #f1f5f9; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; /* 상단부터 정렬 */
+            min-height: 100vh; 
+            font-family: 'Noto Sans KR', sans-serif; 
+        }
         
         .slide-container {
-            width: 1280px; height: 720px;
+            width: 100%;
+            max-width: 1200px; /* 노션 가독성 최적화 너비 */
+            height: auto;      /* 고정 높이 720px 해제 */
             background-color: #fff;
-            padding: 40px 60px;
+            padding: 50px 60px;
             position: relative;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            margin-bottom: 50px; /* 하단 여백 추가 */
         }
 
-        /* Accent Elements */
+        /* 상단 액센트 바 */
         .slide-container::before {
             content: "";
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 10px;
             background: linear-gradient(90deg, #0056b3, #00a8e8);
+            border-radius: 16px 16px 0 0;
         }
 
         /* 2. TYPOGRAPHY */
         h1, h2, h3 { font-family: 'Poppins', 'Noto Sans KR', sans-serif; margin: 0; color: #0f172a; }
-        .slide-title { font-size: 38px; margin-bottom: 30px; border-left: 10px solid #0056b3; padding-left: 20px; letter-spacing: -1px; }
-        .slide-subtitle { color: #64748b; font-size: 18px; font-weight: 400; margin-top: -25px; margin-bottom: 30px; margin-left: 30px; }
+        .slide-title { font-size: 34px; margin-bottom: 30px; border-left: 10px solid #0056b3; padding-left: 20px; letter-spacing: -1px; line-height: 1.2; }
+        .slide-subtitle { color: #64748b; font-size: 18px; font-weight: 400; margin-top: -20px; margin-bottom: 40px; margin-left: 30px; }
 
         /* 3. LAYOUT GRID */
         .content-area {
             display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            grid-template-rows: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); /* 반응형 그리드 */
             gap: 24px;
             flex-grow: 1;
         }
@@ -54,10 +66,8 @@
             border: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease;
+            height: 100%;
         }
-        
-        .panel:hover { transform: translateY(-5px); }
 
         .panel-header {
             display: flex;
@@ -66,68 +76,75 @@
             margin-bottom: 20px;
         }
 
-        .panel-header i { color: #0056b3; font-size: 28px; }
-        .panel-header h3 { font-size: 22px; font-weight: 700; color: #0056b3; }
+        .panel-header i { color: #0056b3; font-size: 24px; }
+        .panel-header h3 { font-size: 20px; font-weight: 700; color: #0056b3; }
 
         /* Custom Visuals */
         .highlight-box {
             background: #fff;
-            padding: 20px;
+            padding: 15px;
             border-radius: 16px;
             text-align: center;
             border: 1px solid #cbd5e1;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             flex: 1;
         }
-        .val { display: block; font-size: 32px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
-        .label { font-size: 13px; color: #64748b; font-weight: 700; text-transform: uppercase; }
+        .val { display: block; font-size: 28px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+        .label { font-size: 12px; color: #64748b; font-weight: 700; text-transform: uppercase; }
 
         /* Retention Visualization */
-        .retention-chart { display: flex; align-items: flex-end; gap: 10px; height: 120px; margin-top: 10px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0; }
+        .retention-chart { display: flex; align-items: flex-end; gap: 10px; height: 100px; margin-top: 10px; padding-bottom: 10px; border-bottom: 2px solid #e2e8f0; }
         .bar-container { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .bar { width: 100%; border-radius: 4px 4px 0 0; position: relative; }
+        .bar { width: 100%; border-radius: 4px 4px 0 0; }
         .bar-dokdo { background: #0056b3; }
         .bar-others { background: #cbd5e1; }
         .bar-label { font-size: 11px; font-weight: 700; color: #64748b; }
 
         /* Lists */
         .insight-list { list-style: none; padding: 0; margin: 0; }
-        .insight-list li { margin-bottom: 12px; display: flex; gap: 10px; font-size: 15px; color: #334155; align-items: flex-start; }
-        .insight-list i { color: #00a8e8; margin-top: 4px; }
+        .insight-list li { margin-bottom: 12px; display: flex; gap: 10px; font-size: 15px; color: #334155; align-items: flex-start; line-height: 1.5; }
+        .insight-list i { color: #00a8e8; margin-top: 4px; font-size: 14px; }
 
         /* Action Plan */
-        .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .strategy-card { background: #fff; padding: 15px; border-radius: 12px; border-left: 4px solid #0056b3; font-size: 14px; }
-        .strategy-card strong { display: block; color: #0056b3; margin-bottom: 4px; }
+        .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .strategy-card { background: #fff; padding: 15px; border-radius: 12px; border-left: 4px solid #0056b3; font-size: 13px; line-height: 1.4; }
+        .strategy-card strong { display: block; color: #0056b3; margin-bottom: 4px; font-size: 14px; }
 
         .footer {
-            margin-top: 30px;
-            padding: 20px;
+            margin-top: 40px;
+            padding: 20px 30px;
             background: #0f172a;
             border-radius: 12px;
             color: #f8fafc;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 15px;
+            font-size: 14px;
         }
         .footer b { color: #38bdf8; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .slide-container { padding: 30px 20px; }
+            .content-area { grid-template-columns: 1fr; }
+            .strategy-grid { grid-template-columns: 1fr; }
+            .footer { flex-direction: column; gap: 10px; text-align: center; }
+        }
     </style>
 </head>
 <body>
 
 <div class="slide-container">
-    <h1 class="slide-title">독도 토너: 라운드랩 성장을 견인하는 '리텐션 앵커' 분석</h1>
-    <p class="slide-subtitle">단순 매출을 넘어 고객 생애 가치(LTV)를 창출하는 전략 자산으로서의 가치 증명</p>
+    <h1 class="slide-title">독도 토너: 라운드랩 성장을 견인하는<br>'리텐션 앵커' 분석</h1>
+    <p class="slide-subtitle">고객 생애 가치(LTV)를 창출하는 전략 자산으로서의 가치 증명</p>
     
     <div class="content-area">
-        <!-- Panel 1: The Accelerator (TTC) -->
         <div class="panel">
             <div class="panel-header">
                 <i class="fa-solid fa-bolt-lightning"></i>
                 <h3>구매 여정 가속기 (Accelerator)</h3>
             </div>
-            <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+            <div style="display: flex; gap: 12px; margin-bottom: 20px;">
                 <div class="highlight-box">
                     <span class="label">브랜드 평균 TTC</span>
                     <span class="val" style="color: #64748b;">137.1일</span>
@@ -138,13 +155,12 @@
                 </div>
             </div>
             <ul class="insight-list">
-                <li><i class="fa-solid fa-check-double"></i> 브랜드 평균 대비 <strong>약 41일(30%) 빠른</strong> 첫 구매 유도</li>
-                <li><i class="fa-solid fa-check-double"></i> 신중형 고객(75%)의 심리적 허들을 낮추는 엔트리 아이템</li>
-                <li><i class="fa-solid fa-check-double"></i> 플랫폼 전체 평균(147일)보다 월등히 높은 전환 효율</li>
+                <li><i class="fa-solid fa-circle-check"></i> 브랜드 평균 대비 <strong>약 41일(30%) 빠른</strong> 첫 구매 유도</li>
+                <li><i class="fa-solid fa-circle-check"></i> 신중형 고객(75%)의 심리적 허들을 낮추는 엔트리 아이템</li>
+                <li><i class="fa-solid fa-circle-check"></i> 플랫폼 평균(147일) 대비 압도적 전환 효율 증명</li>
             </ul>
         </div>
 
-        <!-- Panel 2: The Anchor (Retention) -->
         <div class="panel">
             <div class="panel-header">
                 <i class="fa-solid fa-anchor"></i>
@@ -152,71 +168,69 @@
             </div>
             <div class="retention-chart">
                 <div class="bar-container"><div class="bar bar-others" style="height: 15%;"></div><span class="bar-label">비독도</span></div>
-                <div class="bar-container"><div class="bar bar-dokdo" style="height: 60%;"></div><span class="bar-label">독도(M1)</span></div>
+                <div class="bar-container"><div class="bar bar-dokdo" style="height: 65%;"></div><span class="bar-label">독도(M1)</span></div>
                 <div class="bar-container"><div class="bar bar-dokdo" style="height: 45%; opacity: 0.8;"></div><span class="bar-label">M3</span></div>
-                <div class="bar-container"><div class="bar bar-dokdo" style="height: 70%; opacity: 0.9;"></div><span class="bar-label">M6~9</span></div>
+                <div class="bar-container"><div class="bar bar-dokdo" style="height: 75%; opacity: 0.95;"></div><span class="bar-label">M6~9</span></div>
             </div>
-            <div style="margin-top: 15px;">
+            <div style="margin-top: 20px;">
                 <ul class="insight-list">
-                    <li><i class="fa-solid fa-chart-line"></i> 독도 토너 유입 고객은 비독도 대비 <strong>최대 7.2배</strong> 리텐션 우위</li>
-                    <li><i class="fa-solid fa-chart-line"></i> <strong>독도 스파이크:</strong> M6~M9 구간에서 발생하는 강력한 재구매 파동</li>
-                    <li><i class="fa-solid fa-chart-line"></i> "남는 고객"을 만드는 힘이 브랜드 전체 LTV(+42%) 상승 견인</li>
+                    <li><i class="fa-solid fa-chart-line"></i> 독도 유입 고객은 비독도 대비 <strong>최대 7.2배</strong> 리텐션 우위</li>
+                    <li><i class="fa-solid fa-chart-line"></i> <strong>독도 스파이크:</strong> M6~M9 구간의 강력한 재구매 파동</li>
+                    <li><i class="fa-solid fa-chart-line"></i> 브랜드 전체 LTV(+42%) 상승을 견인하는 핵심 동력</li>
                 </ul>
             </div>
         </div>
 
-        <!-- Panel 3: Funnel & Entry Barrier -->
         <div class="panel">
             <div class="panel-header">
                 <i class="fa-solid fa-magnifying-glass-chart"></i>
                 <h3>퍼널 최적화 & 이탈 방지</h3>
             </div>
-            <div style="background: #f1f5f9; padding: 20px; border-radius: 16px; margin-bottom: 15px;">
-                <p style="margin: 0; font-size: 14px; font-weight: 700; color: #475569;">조회(View) 후 이탈 방지의 보루</p>
-                <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
-                    <div style="flex: 1; height: 8px; background: #e2e8f0; border-radius: 4px;">
-                        <div style="width: 22.6%; height: 100%; background: #0056b3; border-radius: 4px;"></div>
+            <div style="background: #f1f5f9; padding: 15px; border-radius: 12px; margin-bottom: 15px;">
+                <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 700; color: #475569;">조회(View) 후 구매 전환율 (CVR)</p>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="flex: 1; height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden;">
+                        <div style="width: 22.6%; height: 100%; background: #0056b3;"></div>
                     </div>
-                    <span style="font-size: 12px; font-weight: 700; color: #0056b3;">CVR 22.6%</span>
+                    <span style="font-size: 13px; font-weight: 700; color: #0056b3;">22.6%</span>
                 </div>
             </div>
             <ul class="insight-list">
-                <li><i class="fa-solid fa-arrow-right-to-bracket"></i> 라운드랩 유입 유저의 <strong>60% 이탈</strong>을 막는 유일한 핵심 훅</li>
-                <li><i class="fa-solid fa-arrow-right-to-bracket"></i> 단독 구매 시보다 <strong>번들 구성 시</strong> 전환 확신 증대</li>
-                <li><i class="fa-solid fa-arrow-right-to-bracket"></i> 장바구니 유저(13.5% 이탈)를 결제로 넘기는 명분 제공</li>
+                <li><i class="fa-solid fa-arrow-right-to-bracket"></i> 유입 유저의 <strong>60% 이탈</strong>을 방어하는 최전방 훅 아이템</li>
+                <li><i class="fa-solid fa-arrow-right-to-bracket"></i> 단독 구매보다 <strong>번들 구성 시</strong> 구매 확신도 급증</li>
+                <li><i class="fa-solid fa-arrow-right-to-bracket"></i> 장바구니 유저의 결제 전환을 유도하는 '검증된 명분'</li>
             </ul>
         </div>
 
-        <!-- Panel 4: Actionable Strategy -->
         <div class="panel" style="background: #f0f9ff; border-color: #0056b3;">
             <div class="panel-header">
                 <i class="fa-solid fa-chess-knight" style="color: #0056b3;"></i>
-                <h3 style="color: #0056b3;">독도 토너 중심 실행 전략</h3>
+                <h3 style="color: #0056b3;">데이터 기반 실행 전략</h3>
             </div>
             <div class="strategy-grid">
                 <div class="strategy-card">
                     <strong>엔트리 마케팅</strong>
-                    신규 고객의 첫 구매를 '독도 토너'로 고정하여 CAC 효율 극대화
+                    신규 고객 첫 구매를 '독도 토너'로 고정하여 CAC 효율 극대화
                 </div>
                 <div class="strategy-card">
                     <strong>루틴 번들링</strong>
-                    독도 토너 + 자작나무 크림 조합을 통해 AOV 구조적 개선
+                    독도 토너 + 자작나무 크림 조합으로 AOV 및 만족도 개선
                 </div>
                 <div class="strategy-card">
-                    <strong>M1 리텐션 CRM</strong>
-                    첫 구매 4주 후, 토너 소진 주기에 맞춘 개인화 재구매 알림
+                    <strong>소진 주기 CRM</strong>
+                    첫 구매 4주 후, 토너 소진 시점에 맞춘 개인화 재구매 알림
                 </div>
                 <div class="strategy-card">
                     <strong>대용량 업셀링</strong>
-                    LTV가 증명된 VIP군 대상 500ml 기획세트 중심 락인 전략
+                    리텐션이 검증된 로열층 대상 500ml 대용량 락인(Lock-in)
                 </div>
             </div>
         </div>
     </div>
 
     <div class="footer">
-        <div><i class="fa-solid fa-circle-info"></i> <b>분석 결론:</b> 라운드랩의 성장은 <b>'독도 토너'</b>라는 견고한 앵커를 통해 고객을 안착시키고, 타 라인업으로 확장하는 구조에 있습니다.</div>
-        <div style="font-weight: 700; opacity: 0.8;">Data Intelligence Report 2026</div>
+        <div><i class="fa-solid fa-circle-info"></i> <b>핵심 결론:</b> 라운드랩의 성장은 <b>'독도 토너'</b>라는 앵커를 통한 안착과 확장에 있습니다.</div>
+        <div style="font-weight: 700; opacity: 0.7;">Data Intelligence Report 2026</div>
     </div>
 </div>
 
